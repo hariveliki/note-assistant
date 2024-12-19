@@ -74,3 +74,5 @@ function showError(message) {
   errorDiv.textContent = message;
   errorDiv.style.display = "block";
 }
+
+export { generateResponse, copyResponse };

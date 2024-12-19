@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ollama Web Interface</title>
     <link rel="stylesheet" href="/static/index.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -19,7 +20,7 @@
       </div>
 
       <div>
-        <button onclick="generateResponse()">Generate Response</button>
+        <button id="generateButton">Generate Response</button>
       </div>
 
       <div class="error" id="error"></div>
@@ -27,10 +28,17 @@
       <div>
         <h3>Response:</h3>
         <div class="response" id="response"></div>
-        <button onclick="copyResponse()" id="copyButton">Copy</button>
+        <button id="copyButton">Copy</button>
       </div>
     </div>
 
-    <script src="/static/index.js"></script>
+    <script type="module">
+      import { generateResponse, copyResponse } from "/static/index.js";
+
+      $(document).ready(function () {
+        $("#generateButton").on("click", generateResponse);
+        $("#copyButton").on("click", copyResponse);
+      });
+    </script>
   </body>
 </html>
