@@ -11,8 +11,11 @@ export default [
       "es2021": true
     },
     "extends": "eslint:recommended",
+    "plugins": ["css-modules"],
     "rules": {
-      "no-unused-vars": "warn"
+      "no-unused-vars": "warn",
+      "css-modules/no-unused-class": "warn",
+      "css-modules/no-undef-class": "warn",
     }
   },
 ];

@@ -12,6 +12,7 @@
   "description": "",
   "devDependencies": {
     "eslint": "^9.17.0",
+    "eslint-plugin-css-modules": "^2.12.0",
     "globals": "^15.14.0"
   }
 }

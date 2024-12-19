@@ -1,3 +1,4 @@
+
 async function copyResponse() {
   const response = document.getElementById("response");
   const copyButton = document.getElementById("copyButton");
@@ -30,23 +31,9 @@ async function copyResponse() {
   }
 }
 
-async function loadModels() {
-  try {
-    const data = "foo";
-    const modelSelect = document.getElementById("model");
-    modelSelect.innerHTML = "";
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "llama3.2:latest";
-    defaultOption.textContent = "llama3.2:latest";
-    modelSelect.appendChild(defaultOption);
-  } catch (error) {
-    showError("Failed to load models: " + error.message);
-  }
-}
-
 async function generateResponse() {
   const prompt = document.getElementById("prompt").value;
-  const model = document.getElementById("model").value;
+  const model = "llama3.2:latest";
   const responseDiv = document.getElementById("response");
   const errorDiv = document.getElementById("error");
 
@@ -87,6 +74,3 @@ function showError(message) {
   errorDiv.textContent = message;
   errorDiv.style.display = "block";
 }
-
-
-loadModels();
