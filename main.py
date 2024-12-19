@@ -26,15 +26,18 @@ app.add_middleware(
 )
 
 # Mount static files directory
-static_dir = pathlib.Path(__file__).parent.resolve()
+static_dir = pathlib.Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
 
 class PromptRequest(BaseModel):
     prompt: str
     model: str = "llama3.2:latest"  # default model
 
+
 class PromptResponse(BaseModel):
     response: str
+
 
 @app.post("/generate", response_model=PromptResponse)
 async def generate_response(request: PromptRequest):
@@ -43,44 +46,19 @@ async def generate_response(request: PromptRequest):
             model="note-assistant",
             prompt=request.prompt,
         )
-        
-        return PromptResponse(response=response['response'])
-        
+
+        return PromptResponse(response=response["response"])
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
-# @app.get("/models")
-# async def list_models():
-#     try:
-#         # Run 'ollama list' command asynchronously
-#         process = await asyncio.create_subprocess_exec(
-#             "ollama", "list",
-#             stdout=asyncio.subprocess.PIPE,
-#             stderr=asyncio.subprocess.PIPE
-#         )
-        
-#         stdout, stderr = await process.communicate()
-        
-#         if process.returncode != 0:
-#             error_msg = stderr.decode().strip()
-#             raise HTTPException(status_code=500, detail=f"Ollama error: {error_msg}")
-            
-#         # Parse the output into the expected format
-#         models_text = stdout.decode().strip().split('\n')
-#         models = [{"name": line.split()[0]} for line in models_text if line and "llama" in line.split()[0]]
-#         return {"models": models}
-        
-#     except FileNotFoundError:
-#         raise HTTPException(
-#             status_code=500,
-#             detail="Ollama not found. Please make sure Ollama is installed and in your PATH."
-#         )
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 @app.get("/")
 async def read_index():
-    return FileResponse('index.html')
+    return FileResponse(static_dir / "index.html")
+
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="debug") # TODO remove debug mode
+    uvicorn.run(
+        app, host="0.0.0.0", port=8000, log_level="debug"
+    )  # TODO remove debug mode
